@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url" value="jdbc:mysql://localhost:3306/shop"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="j8822236"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.frank.model.User</value>
+				<value>com.frank.model.Company</value>
+				<value>com.frank.model.Resume</value>
+				<value>com.frank.model.Project</value>
+				<value>com.frank.model.Applicant</value>
+				<value>com.frank.model.Admin</value>
+				
+			</list>
+		</property>
+	</bean>
+
+	<!-- 使用 annotation 自动注册bean,并检查@Controller, @Service, @Repository注解已被注入 -->
+	<context:component-scan base-package="com.frank" />
+	<bean id="UserDAO" class="com.frank.model.UserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CompanyDAO" class="com.frank.model.CompanyDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ResumeDAO" class="com.frank.model.ResumeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ProjectDAO" class="com.frank.model.ProjectDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ApplicantDAO" class="com.frank.model.ApplicantDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdminDAO" class="com.frank.model.AdminDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>
